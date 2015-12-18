@@ -6,6 +6,12 @@ import org.junit.Assert;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+/**
+ * JUnit Testing
+ * @author Pranav Sharma
+ * @version 1.0
+ * @since 2015-12-17
+*/
 public class MyTests 
 {
 	private static final String _dbName = "test";
@@ -14,6 +20,9 @@ public class MyTests
 	private static final int _port = 27017;
 	private DBOperations _dbOperations = new DBOperations(_host, _port, _collectionName, _dbName);
 	
+	/**
+	 * Testing Create Document
+	*/
 	@Test
 	public void CreateDocument()
 	{
@@ -22,6 +31,9 @@ public class MyTests
 		Assert.assertEquals(obj1, obj2);
 	}
 	
+	/**
+	 * Testing Insert Document
+	*/
 	@Test
 	public void InsertDocument()
 	{
@@ -31,6 +43,9 @@ public class MyTests
 		Assert.assertEquals("value", _dbOperations.GetCollection().findOne().get("key"));
 	}
 	
+	/**
+	 * Testing Size of Collection
+	*/
 	@Test
 	public void CollectionCount()
 	{
@@ -39,6 +54,9 @@ public class MyTests
 		Assert.assertEquals(1, _dbOperations.GetCollectionCount());
 	}
 	
+	/**
+	 * Testing Document retrieval by ID
+	*/
 	@Test
 	public void GetDocumentByID()
 	{
@@ -48,6 +66,9 @@ public class MyTests
 		Assert.assertEquals(obj1.get("Name"), obj2.get("Name"));	
 	}
 	
+	/**
+	 * Testing retrieval of all Documents
+	*/
 	@Test
 	public void GetAllDocuments()
 	{
@@ -61,6 +82,9 @@ public class MyTests
 		Assert.assertEquals(3, _dbOperations.GetAllDocuments().size());
 	}
 	
+	/**
+	 * Testing Update Document
+	*/
 	@Test
 	public void UpdateDocument()
 	{
@@ -72,6 +96,9 @@ public class MyTests
 		Assert.assertEquals("newValue", _dbOperations.GetCollection().findOne().get("newKey"));
 	}
 	
+	/**
+	 * Testing Deletion of Document by ID
+	*/
 	@Test
 	public void DeleteDocumentByID()
 	{
@@ -79,6 +106,9 @@ public class MyTests
 		Assert.assertEquals(null, _dbOperations.GetDocumentByID("5672e907c63323b4fba244b1"));
 	}
 	
+	/**
+	 * Testing Deletion of All Documents
+	*/
 	@Test
 	public void DeleteAllDocuments()
 	{

@@ -7,13 +7,18 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject; 
 import com.mongodb.MongoClient; 
  
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List; 
 
 import org.bson.types.ObjectId;
 
+/**
+ * Perform CRUD operations on a MongoDB Server
+ * @author Pranav Sharma
+ * @version 1.0
+ * @since 2015-12-17
+*/
 public class DBOperations {
 
 	private String _host;
@@ -23,6 +28,9 @@ public class DBOperations {
 	private String _collectionName;
 	private String _dbName;
 	
+	/**
+	 * Instantiating the Client and Getting the Name of the Collection
+	*/
 	public DBOperations(String host, int port, String collectionName, String dbName)
 	{
 		_host = host;
@@ -33,11 +41,15 @@ public class DBOperations {
 		try {
 			_mongoClient = new MongoClient(_host, _port);
 			_collection = GetCollection(_collectionName, _dbName);
-		} catch (UnknownHostException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Gets Name of Collection
+	 * If Collection does not exist, then it is created
+	*/
 	private DBCollection GetCollection(String collectionName, String dbName)
 	{
 		DB db = _mongoClient.getDB(dbName);
@@ -45,16 +57,25 @@ public class DBOperations {
 		return collection;
 	}
 	
+	/**
+	 * Gets Name of Collection
+	*/
 	public DBCollection GetCollection()
 	{
 		return _collection;
 	}
 	
+	/**
+	 * Inserts a Document in the Collection
+	*/
 	public void InsertDocument(BasicDBObject document)
 	{
 		_collection.insert(document);
 	}
 	
+	/**
+	 * Creates a Document 
+	*/
 	public BasicDBObject CreateDocument()
 	{
 		BasicDBObject document = new BasicDBObject();
@@ -63,6 +84,9 @@ public class DBOperations {
 		return document;
 	}
 	
+	/**
+	 * Creates a Document given the name and type
+	*/
 	public BasicDBObject CreateDocument(String name, String type)
 	{
 		BasicDBObject document = new BasicDBObject();
@@ -71,6 +95,9 @@ public class DBOperations {
 		return document;
 	}
 	
+	/**
+	 * Creates a Sample Document
+	*/
 	public BasicDBObject CreateSampleDocument()
 	{
 		BasicDBObject document = new BasicDBObject();
@@ -78,11 +105,18 @@ public class DBOperations {
 		document.append("DateAdded", new Date());
 		return document;
 	}
+	
+	/**
+	 * Gets the Number of Items in the Collection
+	*/
 	public long GetCollectionCount()
 	{
 		return _collection.count();
 	}
 	
+	/**
+	 * Returns the Document given and ID
+	*/
 	public DBObject GetDocumentByID(String ID)
 	{
 		BasicDBObject query = new BasicDBObject();
@@ -91,6 +125,9 @@ public class DBOperations {
 		return dbObj;
 	}
 	
+	/**
+	 * Returns all Documents from the Collection
+	*/
 	public List<DBObject> GetAllDocuments()
 	{
 		DBCursor cursor = _collection.find();
@@ -105,6 +142,9 @@ public class DBOperations {
 		return list;
 	}
 	
+	/**
+	 * Replaces the Old Document with the New Document in the Collection
+	*/
 	public void UpdateDocument(BasicDBObject oldObj, BasicDBObject newObj)
 	{
 		BasicDBObject updateObj = new BasicDBObject();
@@ -112,6 +152,9 @@ public class DBOperations {
 		_collection.update(oldObj, updateObj, false, true);
 	}
 	
+	/**
+	 * Deletes the Document with the Specific ID
+	*/
 	public void DeleteDocument(String ID)
 	{
 		DBObject object = GetDocumentByID(ID);
@@ -121,6 +164,9 @@ public class DBOperations {
 		}
 	}
 	
+	/**
+	 * Deleting all Documents from the Collection
+	*/
 	public void DeleteAllDocuments()
 	{
 		if (GetCollectionCount() != 0)
